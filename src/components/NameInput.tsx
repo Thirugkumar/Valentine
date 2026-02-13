@@ -69,7 +69,7 @@ export default function NameInput({ onNameSubmit, defaultName = '' }: NameInputP
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
               placeholder={defaultName || 'Enter your name...'}
-              className={`w-full px-5 py-4 text-2xl text-pink-400 text-center rounded-xl focus:outline-none focus:ring-4 focus:ring-white/50 transition-all duration-300 ${theme.input.bg} ${theme.text} ${theme.input.placeholder} border-2 ${isFocused ? theme.input.borderFocus : theme.input.border
+              className={`w-full px-5 py-4 text-2xl  text-center rounded-xl focus:outline-none focus:ring-4 focus:ring-white/50 transition-all duration-300 ${theme.input.bg} ${themeId !== 'dark' ? "text-pink-400" : theme.text} ${theme.input.placeholder} border-2 ${isFocused ? theme.input.borderFocus : theme.input.border
                 } ${isFocused ? 'scale-[1.02]' : ''}`}
               autoFocus
             />

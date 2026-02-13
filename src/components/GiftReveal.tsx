@@ -8,6 +8,20 @@ import BackgroundEffects from './BackgroundEffects'
 import type { CustomizeData } from '@/lib/customize'
 import { ease } from '@/lib/animation'
 
+function getImageUrl(path: string): string {
+  const normalized = path.startsWith('/') ? path : `/${path}`
+  const basePath = (typeof process !== 'undefined' && process.env.NEXT_PUBLIC_BASE_PATH) || ''
+  const pathWithBase = basePath ? `${basePath.replace(/\/$/, '')}${normalized}` : normalized
+  if (typeof window !== 'undefined' && window.location?.origin) {
+    return `${window.location.origin}${pathWithBase}`
+  }
+  if (typeof process !== 'undefined' && process.env.NEXT_PUBLIC_SITE_URL) {
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, '')
+    return `${siteUrl}${pathWithBase}`
+  }
+  return pathWithBase
+}
+
 interface GiftRevealProps {
   customizeData: CustomizeData
   onComplete?: () => void
@@ -29,13 +43,13 @@ export default function GiftReveal({
   const [currentSlide, setCurrentSlide] = useState(0)
   const { themeId, theme } = useTheme()
 
-  const baseImage = customizeData.imagePath
+  const baseImagePath = customizeData.imagePath
     ? customizeData.imagePath.startsWith('/')
       ? customizeData.imagePath
       : `/${customizeData.imagePath}`
     : '/img/img.jpg'
-  const carouselImages = [
-    baseImage,
+  const carouselPaths = [
+    baseImagePath,
     '/img/img1.jpg',
     '/img/img2.jpg',
     '/img/img3.jpeg',
@@ -45,6 +59,7 @@ export default function GiftReveal({
     '/img/img7.jpg',
     '/img/img8.jpg',
   ]
+  const carouselImages = carouselPaths.map(getImageUrl)
 
   useEffect(() => {
     if (!containerRef.current || !boxRef.current || !lidRef.current) return

@@ -91,7 +91,7 @@ export default function WelcomeScene({ name, onComplete, className = '' }: Welco
       )
       .to({}, { duration: 1 })
       .add(() => { waveTl.play(0) })
-      .to({}, { duration: 8, onComplete })
+      .to({}, { duration: 5, onComplete })
 
     return () => {
       waveTl.kill()
