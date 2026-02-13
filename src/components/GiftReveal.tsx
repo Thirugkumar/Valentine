@@ -11,7 +11,7 @@ import { ease } from '@/lib/animation'
 const CAROUSEL_IMAGES = [
   '/img/img.jpg',
   '/img/img1.jpg',
-  '/img/img2.jpg',
+  '/img/img2.JPG',
   '/img/img3.jpeg',
   '/img/img4.jpeg',
   '/img/img5.jpeg',
