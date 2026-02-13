@@ -37,7 +37,7 @@ export default function GiftReveal({
   const messageRef = useRef<HTMLDivElement>(null)
   const imageRef = useRef<HTMLDivElement>(null)
   const [showContent, setShowContent] = useState(false)
-  const [imageError, setImageError] = useState(false)
+  const [failedImageIndexes, setFailedImageIndexes] = useState<Set<number>>(new Set())
   const [currentSlide, setCurrentSlide] = useState(0)
   const { themeId, theme } = useTheme()
 
@@ -91,12 +91,12 @@ export default function GiftReveal({
   }, [onComplete])
 
   useEffect(() => {
-    if (!showContent || imageError || carouselImages.length <= 1) return
+    if (!showContent || carouselImages.length <= 1) return
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % carouselImages.length)
     }, 5000)
     return () => clearInterval(interval)
-  }, [showContent, imageError, carouselImages.length])
+  }, [showContent, carouselImages.length])
 
   return (
     <div
@@ -155,46 +155,43 @@ export default function GiftReveal({
           ref={imageRef}
           className={`relative w-[98%] h-[400px] md:w-[500px] md:h-[400px] mt-6 ${theme.glass.rounded} overflow-hidden shadow-2xl bg-black/10 flex items-center justify-center`}
         >
-          {imageError ? (
-            <div className="w-full h-full flex flex-col items-center justify-center gap-2 bg-gradient-to-br from-rose-200/80 to-pink-300/80 text-gray-700">
-              <span className="text-5xl">💖</span>
-              <span className="text-sm font-medium">Add img1–img6.jpg to public/img/</span>
-            </div>
-          ) : (
-            <>
-              <div className="w-full h-full overflow-hidden">
-                <div
-                  className="flex h-full transition-transform duration-[1500ms] ease-in-out"
-                  style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-                >
-                  {carouselImages.map((src, i) => (
-                    <div key={i} className="w-full h-full flex-shrink-0 relative">
-                      <img
-                        src={src}
-                        alt={`Valentine ${i + 1}`}
-                        className="w-full h-full object-cover block"
-                        onError={() => setImageError(true)}
-                      />
+          <div className="w-full h-full overflow-hidden">
+            <div
+              className="flex h-full transition-transform duration-[1500ms] ease-in-out"
+              style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+            >
+              {carouselImages.map((src, i) => (
+                <div key={i} className="w-full h-full flex-shrink-0 relative">
+                  {failedImageIndexes.has(i) ? (
+                    <div className="w-full h-full flex flex-col items-center justify-center gap-2 bg-gradient-to-br from-rose-200/80 to-pink-300/80 text-gray-600">
+                      <span className="text-4xl">💖</span>
+                      <span className="text-xs">Image {i + 1}</span>
                     </div>
-                  ))}
-                </div>
-              </div>
-              {carouselImages.length > 1 && (
-                <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1.5 z-10">
-                  {carouselImages.map((_, i) => (
-                    <button
-                      key={i}
-                      type="button"
-                      aria-label={`Go to slide ${i + 1}`}
-                      onClick={() => setCurrentSlide(i)}
-                      className={`w-2 h-2 rounded-full transition-all duration-300 ${i === currentSlide ? 'bg-white scale-125' : 'bg-white/50 hover:bg-white/80'
-                        }`}
+                  ) : (
+                    <img
+                      src={src}
+                      alt={`Valentine ${i + 1}`}
+                      className="w-full h-full object-cover block"
+                      onError={() => setFailedImageIndexes((prev) => new Set(prev).add(i))}
                     />
-                  ))}
+                  )}
                 </div>
-              )}
-            </>
-          )}
+              ))}
+            </div>
+            {carouselImages.length > 1 && (
+              <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1.5 z-10">
+                {carouselImages.map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    aria-label={`Go to slide ${i + 1}`}
+                    onClick={() => setCurrentSlide(i)}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${i === currentSlide ? 'bg-white scale-125' : 'bg-white/50 hover:bg-white/80'}`}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>
