@@ -1,0 +1,287 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&display=swap');
+
+@layer base {
+  html {
+    @apply box-border;
+  }
+
+  body {
+    @apply m-0 font-sans;
+  }
+}
+
+/* Custom Animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes heart-beat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.1) rotate(-5deg);
+  }
+  50% {
+    transform: scale(1.15) rotate(5deg);
+  }
+  75% {
+    transform: scale(1.1) rotate(-3deg);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-30px) translateX(10px) rotate(5deg);
+  }
+  66% {
+    transform: translateY(-15px) translateX(-10px) rotate(-5deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Theme backgrounds */
+.bg-dreamy-gradient {
+  background: linear-gradient(135deg, #ff4e8d 0%, #ff9ecf 40%, #a855f7 100%);
+  background-size: 200% 200%;
+  animation: gradient-shift 12s ease infinite;
+}
+
+.bg-minimal-gradient {
+  background: linear-gradient(180deg, #fef2f2 0%, #fce7f3 50%, #fbcfe8 100%);
+  background-size: 200% 200%;
+  animation: gradient-shift-slow 20s ease infinite;
+}
+
+.bg-dark-gradient {
+  background: linear-gradient(160deg, #0f0a0a 0%, #3d1a2e 40%, #1e1b4b 100%);
+  background-size: 200% 200%;
+  animation: gradient-shift-slow 15s ease infinite;
+}
+
+.bg-genz-gradient {
+  background: linear-gradient(135deg, #fda4af 0%, #f9a8d4 35%, #e879f9 70%, #c084fc 100%);
+  background-size: 200% 200%;
+  animation: gradient-shift 10s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes gradient-shift-slow {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Glass blobs & sparkles */
+@keyframes blob {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -30px) scale(1.05);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.95);
+  }
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes balloon-rise {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-120vh) translateX(20px) rotate(10deg);
+  }
+}
+
+.animate-blob {
+  animation: blob 8s ease-in-out infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+.animate-sparkle {
+  animation: sparkle 3s ease-in-out infinite;
+}
+
+.balloon-rise {
+  animation: balloon-rise 6s ease-out forwards;
+}
+
+/* 3D envelope hover + subtle float */
+.envelope-3d {
+  transition: transform 0.3s ease;
+  animation: envelope-float 4s ease-in-out infinite;
+}
+
+.envelope-3d:hover {
+  animation: none;
+  transform: perspective(1000px) rotateX(-5deg) rotateY(5deg) scale(1.02);
+}
+
+.envelope-3d:active {
+  transform: perspective(1000px) scale(0.98);
+}
+
+@keyframes envelope-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@media (max-width: 768px) {
+  .envelope-3d:hover {
+    transform: scale(1.02);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-blob,
+  .animate-sparkle,
+  .balloon-rise,
+  .envelope-3d {
+    animation: none;
+  }
+  .bg-dreamy-gradient,
+  .bg-minimal-gradient,
+  .bg-dark-gradient,
+  .bg-genz-gradient {
+    animation: none;
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-out;
+  }
+
+  .animate-fade-in-delay {
+    animation: fade-in 0.6s ease-out 0.2s both;
+  }
+
+  .animate-slide-up {
+    animation: slide-up 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .animate-heart-beat {
+    animation: heart-beat 1.5s ease-in-out infinite;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-shimmer {
+    animation: shimmer 2s ease-in-out infinite;
+  }
+}
+
+@layer components {
+  .idea-3 strong {
+    @apply px-1.5 py-1.5 rounded inline-block;
+  }
+
+  .idea-5 span,
+  .idea-6 span,
+  .wish-hbd span {
+    @apply inline-block;
+  }
+
+  @media screen and (max-width: 500px) {
+    .container {
+      @apply w-[90%];
+    }
+
+    .four .text-box {
+      @apply w-[90%];
+    }
+
+    .text-box .fake-btn {
+      @apply right-1 bottom-[-38px];
+    }
+
+    .idea-5 span {
+      @apply block;
+    }
+
+    .idea-6 span {
+      @apply text-[10rem];
+    }
+
+    .wish-hbd {
+      @apply text-[2.3rem];
+    }
+
+    .wish h5 {
+      @apply text-2xl;
+    }
+
+    .nine p {
+      @apply text-2xl font-light;
+    }
+  }
+}
